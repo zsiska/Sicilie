@@ -1,0 +1,707 @@
+!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Catania – Průvodce únor 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lava: #141008;
+    --amber: #d4820a;
+    --gold: #f0b429;
+    --sand: #f5e8c0;
+    --terra: #c2522a;
+    --sky: #3a8fa0;
+    --green: #3a9e60;
+    --violet: #7c4dab;
+    --white: #faf7f0;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { background: var(--lava); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.6; font-size: 15px; }
+
+  .hero { background: linear-gradient(160deg, #251808 0%, #1a1004 60%, #0e0a04 100%); padding: 32px 20px 26px; border-bottom: 2px solid var(--amber); text-align: center; }
+  .hero-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--sand); line-height: 1.2; margin-bottom: 6px; }
+  .hero h1 em { color: var(--gold); font-style: italic; }
+  .hero-sub { font-size: 11px; color: rgba(245,232,192,0.5); line-height: 1.6; }
+  .weather-bar { display: flex; gap: 0; border-top: 1px solid rgba(212,130,10,0.2); margin-top: 18px; padding-top: 14px; }
+  .w-day { flex: 1; text-align: center; padding: 0 4px; border-right: 1px solid rgba(212,130,10,0.15); }
+  .w-day:last-child { border-right: none; }
+  .w-label { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: rgba(245,232,192,0.4); margin-bottom: 3px; }
+  .w-icon { font-size: 18px; margin-bottom: 2px; }
+  .w-temp { font-size: 13px; font-weight: 600; color: var(--gold); }
+  .w-rain { font-size: 9px; color: var(--green); }
+  .verified-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(58,158,96,0.15); border: 1px solid rgba(58,158,96,0.35); border-radius: 20px; padding: 3px 10px; font-size: 10px; color: #7dd894; letter-spacing: 0.5px; margin-top: 10px; }
+
+  .tabs { display: flex; overflow-x: auto; background: #0d0900; border-bottom: 1px solid rgba(212,130,10,0.2); -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex-shrink: 0; padding: 13px 14px; font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: rgba(245,232,192,0.4); background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .section { display: none; padding: 20px 16px 40px; }
+  .section.active { display: block; }
+  .sec-title { font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--sand); margin-bottom: 4px; }
+  .sec-sub { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,232,192,0.35); margin-bottom: 18px; }
+
+  .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(212,130,10,0.2); border-radius: 14px; padding: 16px 15px; margin-bottom: 12px; position: relative; overflow: hidden; }
+  .card::before { content:''; position:absolute; left:0;top:0;bottom:0; width:4px; border-radius:4px 0 0 4px; background:var(--amber); }
+  .card.blue::before { background:var(--sky); }
+  .card.red::before { background:var(--terra); }
+  .card.green::before { background:var(--green); }
+  .card.violet::before { background:var(--violet); }
+  .card h3 { font-family:'Playfair Display',serif; font-size:1rem; color:var(--sand); margin-bottom:9px; }
+  .card p, .card li { font-size:13px; color:rgba(245,232,192,0.8); margin-bottom:4px; }
+  .card ul { padding-left:16px; }
+
+  .step-num { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--amber); color:var(--lava); font-size:13px; font-weight:600; margin-bottom:9px; }
+  .card.blue .step-num { background:var(--sky); }
+  .card.red .step-num { background:var(--terra); }
+  .card.green .step-num { background:var(--green); }
+
+  .hl { display:inline-block; background:rgba(212,130,10,0.18); border:1px solid rgba(212,130,10,0.35); border-radius:6px; padding:2px 8px; font-size:12px; color:var(--gold); font-weight:500; margin:2px 2px 2px 0; }
+  .hl.red { background:rgba(194,82,42,0.18); border-color:rgba(194,82,42,0.4); color:#e07a5a; }
+  .hl.blue { background:rgba(58,143,160,0.18); border-color:rgba(58,143,160,0.4); color:#7ec8e3; }
+  .hl.green { background:rgba(58,158,96,0.18); border-color:rgba(58,158,96,0.4); color:#7dd894; }
+  .hl.violet { background:rgba(124,77,171,0.18); border-color:rgba(124,77,171,0.4); color:#c39fe8; }
+
+  .warn { background:rgba(194,82,42,0.12); border:1px solid rgba(194,82,42,0.35); border-radius:10px; padding:12px 14px; font-size:13px; color:rgba(245,232,192,0.85); margin:10px 0; }
+  .warn strong { color:#e07a5a; }
+  .info-box { background:rgba(212,130,10,0.1); border:1px solid rgba(212,130,10,0.25); border-radius:10px; padding:12px 14px; font-size:13px; color:rgba(245,232,192,0.85); margin:10px 0; }
+  .info-box strong { color:var(--gold); }
+  .green-box { background:rgba(58,158,96,0.1); border:1px solid rgba(58,158,96,0.25); border-radius:10px; padding:12px 14px; font-size:13px; color:rgba(245,232,192,0.85); margin:10px 0; }
+  .green-box strong { color:#7dd894; }
+  .blue-box { background:rgba(58,143,160,0.1); border:1px solid rgba(58,143,160,0.25); border-radius:10px; padding:12px 14px; font-size:13px; color:rgba(245,232,192,0.85); margin:10px 0; }
+  .blue-box strong { color:#7ec8e3; }
+
+  .tbl { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  .tbl th { padding:7px 9px; background:rgba(212,130,10,0.15); color:var(--gold); font-size:10px; letter-spacing:1px; text-transform:uppercase; text-align:left; font-weight:500; }
+  .tbl td { padding:8px 9px; border-bottom:1px solid rgba(255,255,255,0.04); color:rgba(245,232,192,0.8); font-size:13px; }
+  .tbl tr.best td { color:var(--gold); font-weight:500; }
+  .tbl tr:last-child td { border-bottom:none; }
+
+  .stop { display:flex; gap:12px; align-items:flex-start; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .stop:last-child { border-bottom:none; }
+  .stop-n { min-width:24px; height:24px; border-radius:50%; background:rgba(212,130,10,0.12); border:1px solid rgba(212,130,10,0.25); display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--amber); flex-shrink:0; margin-top:1px; }
+  .stop.you .stop-n { background:rgba(240,180,41,0.22); border-color:var(--gold); color:var(--gold); font-size:13px; }
+  .stop-name { font-size:13px; color:var(--sand); }
+  .stop-note { font-size:11px; color:rgba(245,232,192,0.45); margin-top:2px; }
+  .stop.you .stop-name { color:var(--gold); font-weight:500; }
+
+  .map-btn { display:flex; align-items:center; gap:12px; width:100%; padding:14px 13px; border-radius:12px; border:1.5px solid rgba(212,130,10,0.45); background:rgba(212,130,10,0.1); color:var(--gold); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; text-decoration:none; margin:8px 0; transition:background 0.2s; }
+  .map-btn:active { background:rgba(212,130,10,0.22); }
+  .map-btn.blue { border-color:rgba(58,143,160,0.5); background:rgba(58,143,160,0.1); color:#7ec8e3; }
+  .map-btn.red { border-color:rgba(194,82,42,0.5); background:rgba(194,82,42,0.1); color:#e07a5a; }
+  .map-btn.green { border-color:rgba(58,158,96,0.5); background:rgba(58,158,96,0.1); color:#7dd894; }
+  .map-btn.violet { border-color:rgba(124,77,171,0.5); background:rgba(124,77,171,0.1); color:#c39fe8; }
+  .map-ic { font-size:20px; flex-shrink:0; }
+  .map-btn-text { flex:1; }
+  .map-btn-title { display:block; font-size:14px; font-weight:600; }
+  .map-btn-sub { display:block; font-size:11px; opacity:0.6; font-weight:300; margin-top:1px; }
+
+  .walk-step { display:flex; gap:12px; padding:10px 0; border-bottom:1px dashed rgba(255,255,255,0.07); }
+  .walk-step:last-child { border-bottom:none; }
+  .walk-ic { font-size:20px; flex-shrink:0; margin-top:1px; }
+  .walk-main { font-size:14px; color:var(--sand); }
+  .walk-main strong { font-weight:600; }
+  .walk-sub { font-size:12px; color:rgba(245,232,192,0.5); margin-top:2px; }
+
+  .tl { position:relative; padding-left:26px; }
+  .tl::before { content:''; position:absolute; left:7px; top:6px; bottom:6px; width:2px; background:linear-gradient(to bottom, var(--amber), rgba(212,130,10,0.1)); }
+  .tl-item { position:relative; margin-bottom:16px; }
+  .tl-dot { position:absolute; left:-22px; top:5px; width:10px; height:10px; border-radius:50%; background:var(--amber); border:2px solid var(--lava); box-shadow:0 0 0 2px var(--amber); }
+  .tl-dot.red { background:var(--terra); box-shadow:0 0 0 2px var(--terra); }
+  .tl-dot.green { background:var(--green); box-shadow:0 0 0 2px var(--green); }
+  .tl-dot.violet { background:var(--violet); box-shadow:0 0 0 2px var(--violet); }
+  .tl-time { font-size:10px; letter-spacing:2px; color:var(--amber); text-transform:uppercase; }
+  .tl-title { font-size:14px; color:var(--sand); font-weight:500; margin:2px 0; }
+  .tl-desc { font-size:12px; color:rgba(245,232,192,0.55); }
+
+  .day-header { background:linear-gradient(90deg, rgba(212,130,10,0.12), rgba(212,130,10,0.03)); border-left:3px solid var(--amber); border-radius:0 10px 10px 0; padding:10px 14px; margin:18px 0 12px; }
+  .day-header.blue { background:linear-gradient(90deg, rgba(58,143,160,0.12), rgba(58,143,160,0.03)); border-color:var(--sky); }
+  .day-header.green { background:linear-gradient(90deg, rgba(58,158,96,0.12), rgba(58,158,96,0.03)); border-color:var(--green); }
+  .day-header.violet { background:linear-gradient(90deg, rgba(124,77,171,0.12), rgba(124,77,171,0.03)); border-color:var(--violet); }
+  .day-name { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--amber); margin-bottom:2px; }
+  .day-header.blue .day-name { color:var(--sky); }
+  .day-header.green .day-name { color:#7dd894; }
+  .day-header.violet .day-name { color:#c39fe8; }
+  .day-title { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--sand); }
+  .day-weather { font-size:11px; color:rgba(245,232,192,0.45); margin-top:2px; }
+
+  .price-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; }
+  .price-row:last-child { border-bottom:none; }
+  .price-label { color:rgba(245,232,192,0.7); }
+  .price-val { color:var(--gold); font-weight:500; }
+
+  .contact-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .contact-row:last-child { border-bottom:none; }
+  .contact-row a { color:var(--gold); text-decoration:none; font-size:14px; font-weight:500; }
+  .contact-label { font-size:12px; color:rgba(245,232,192,0.5); }
+
+  .source-note { font-size:10px; color:rgba(245,232,192,0.28); letter-spacing:0.5px; margin-top:6px; }
+
+  .osm-wrap { border-radius:12px; overflow:hidden; border:1px solid rgba(212,130,10,0.2); margin:12px 0; }
+  .osm-wrap iframe { display:block; width:100%; border:none; }
+
+  hr { border:none; border-top:1px solid rgba(212,130,10,0.12); margin:18px 0; }
+  footer { text-align:center; padding:24px 16px; font-size:11px; color:rgba(245,232,192,0.2); letter-spacing:1px; border-top:1px solid rgba(212,130,10,0.1); }
+  footer span { color:var(--amber); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">🌋 Catania · Únor 2026 · Ověřené informace</div>
+  <h1>Sicílie<br><em>Váš průvodce</em></h1>
+  <p class="hero-sub">Via Sangiuliano 54, Scala C, Piano 6 · 24.2 – 1.3.2026<br>Středa – pátek: výlety · Sobota: odlet</p>
+
+  <!-- POČASÍ – ověřeno živou předpovědí -->
+  <div class="weather-bar">
+    <div class="w-day">
+      <div class="w-label">Út 24.2</div>
+      <div class="w-icon">🌤</div>
+      <div class="w-temp">16°C</div>
+      <div class="w-rain">0% déšť</div>
+    </div>
+    <div class="w-day">
+      <div class="w-label">St 25.2</div>
+      <div class="w-icon">☀️</div>
+      <div class="w-temp">16°C</div>
+      <div class="w-rain">0% déšť</div>
+    </div>
+    <div class="w-day">
+      <div class="w-label">Čt 26.2</div>
+      <div class="w-icon">☀️</div>
+      <div class="w-temp">18°C</div>
+      <div class="w-rain">0% déšť</div>
+    </div>
+    <div class="w-day">
+      <div class="w-label">Pá 27.2</div>
+      <div class="w-icon">🌤</div>
+      <div class="w-temp">17°C</div>
+      <div class="w-rain">5% déšť</div>
+    </div>
+    <div class="w-day">
+      <div class="w-label">So 1.3</div>
+      <div class="w-icon">⛅</div>
+      <div class="w-temp">17°C</div>
+      <div class="w-rain">odlet</div>
+    </div>
+  </div>
+  <div class="verified-badge">✓ Počasí ověřeno živou předpovědí · únor 2026</div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" onclick="showTab('arrival',this)">✈ Příjezd</button>
+  <button class="tab" onclick="showTab('itinerary',this)">📅 3 dny</button>
+  <button class="tab" onclick="showTab('etna',this)">🌋 Etna</button>
+  <button class="tab" onclick="showTab('taormina',this)">🏛 Taormina</button>
+  <button class="tab" onclick="showTab('catania',this)">🐘 Catania</button>
+  <button class="tab" onclick="showTab('departure',this)">🛫 Odjezd</button>
+  <button class="tab" onclick="showTab('tips',this)">💡 Tipy</button>
+</nav>
+
+<!-- ===== PŘÍJEZD ===== -->
+<div id="arrival" class="section active">
+  <h2 class="sec-title">Příjezd z letiště</h2>
+  <p class="sec-sub">Úterý 24.2 · bez zavazadel</p>
+
+  <div class="green-box">
+    <strong>✓ Ověřeno (únor 2026):</strong> Alibus jede každých 25 minut od 4:40 do půlnoci, cena 4 € / osoba. Lístek platí 90 min na všechny linky MHD. Jízda do centra ~20 min.
+  </div>
+
+  <div class="card">
+    <div class="step-num">1</div>
+    <h3>Zastávka Alibusu</h3>
+    <p>Vyjděte z příletové haly a jděte <strong>cca 70 m doprava</strong> – zastávka je označena <strong>ALIBUS</strong>.</p>
+    <p>Hledejte: <span class="hl">🚌 červeno-modrý bus</span> <span class="hl">ALIBUS 457</span></p>
+    <div class="info-box" style="margin-top:10px;">
+      <strong>🎫 Lístek 4 € / os.:</strong><br>
+      → Přepážka v příletové hale (Exchange Office, otevřeno 6–22 h)<br>
+      → Automat venku u zastávky<br>
+      → U řidiče (karta i hotovost)<br>
+      → Nebo v app AMT (Google Play / App Store)
+    </div>
+    <div class="warn">
+      <strong>⚠ Validace!</strong> Hned po nastoupení vložte lístek do žlutého přístroje u dveří. Pokuta za nezvalidovaný = <strong>50 €</strong>.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step-num">2</div>
+    <h3>Kde vystoupit</h3>
+    <div class="warn"><strong>⭐ Vystupte: Via Dusmet / Piazza Borsellino</strong><br>~20 min od letiště · nejblíže ubytování</div>
+    <div style="margin-top:10px;">
+      <div class="stop"><div class="stop-n">1</div><div><div class="stop-name">🛫 Letiště Fontanarossa</div></div></div>
+      <div class="stop"><div class="stop-n">2</div><div><div class="stop-name">Asse dei Servizi</div></div></div>
+      <div class="stop"><div class="stop-n">3</div><div><div class="stop-name">Faro Biscari</div></div></div>
+      <div class="stop"><div class="stop-n">4</div><div><div class="stop-name">Via Tempio</div></div></div>
+      <div class="stop"><div class="stop-n">5</div><div><div class="stop-name">Via Colombo</div></div></div>
+      <div class="stop you"><div class="stop-n">⭐</div><div><div class="stop-name">Via Dusmet / Piazza Borsellino</div><div class="stop-note">← VYSTUPTE TADY · pod mostem u přístavu</div></div></div>
+      <div class="stop"><div class="stop-n">7</div><div><div class="stop-name">Via Vittorio Emanuele</div></div></div>
+      <div class="stop"><div class="stop-n">8</div><div><div class="stop-name">Piazza del Duomo</div></div></div>
+      <div class="stop"><div class="stop-n">9</div><div><div class="stop-name">Via Etnea / Stesicoro</div></div></div>
+      <div class="stop"><div class="stop-n">🏁</div><div><div class="stop-name">Catania Centrale – konečná</div></div></div>
+    </div>
+  </div>
+
+  <div class="card green">
+    <h3>🚶 Pěšky ze zastávky (~10 min, bez kufr = pohoda)</h3>
+    <div class="walk-step"><div class="walk-ic">🚌</div><div><div class="walk-main"><strong>Vystupte na Via Dusmet / Borsellino</strong></div><div class="walk-sub">U přístavu, vidíte moře</div></div></div>
+    <div class="walk-step"><div class="walk-ic">↗️</div><div><div class="walk-main">Jděte po <strong>Via Cardinale Dusmet</strong> na západ</div><div class="walk-sub">~150 m rovně</div></div></div>
+    <div class="walk-step"><div class="walk-ic">🐘</div><div><div class="walk-main"><strong>Piazza del Duomo</strong> – sloní fontána</div><div class="walk-sub">Nelze minout, orientační bod</div></div></div>
+    <div class="walk-step"><div class="walk-ic">↑</div><div><div class="walk-main">Severně <strong>do kopce</strong> po Via Vittorio Emanuele II</div><div class="walk-sub">~100 m</div></div></div>
+    <div class="walk-step"><div class="walk-ic">↖️</div><div><div class="walk-main">Vlevo do <strong>Via Antonino di Sangiuliano</strong></div><div class="walk-sub">Do kopce ~400 m</div></div></div>
+    <div class="walk-step"><div class="walk-ic">🏠</div><div><div class="walk-main"><strong>č. 54</strong> – Scala C – výtah – <strong>Piano 6</strong></div><div class="walk-sub">Jste doma!</div></div></div>
+  </div>
+
+  <a class="map-btn green" href="https://www.google.com/maps/dir/Via+Cardinale+Dusmet,+Catania/Via+Antonino+di+Sangiuliano+54,+95131+Catania/@37.5032,15.0918,16z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x13122f2e4ab3d9d9:0x418a0f8bc46ca82!2m2!1d15.0889764!2d37.5012307!1m5!1m1!1s0x13122f33b3f5e71f:0x534bb79d4d536df!2m2!1d15.0955641!2d37.5052879!3e2" target="_blank">
+    <span class="map-ic">🚶</span>
+    <span class="map-btn-text"><span class="map-btn-title">Pěší navigace: zastávka → ubytování</span><span class="map-btn-sub">Google Maps · 10 min</span></span><span>›</span>
+  </a>
+</div>
+
+<!-- ===== 3 DNY ===== -->
+<div id="itinerary" class="section">
+  <h2 class="sec-title">3 dny na Sicílii</h2>
+  <p class="sec-sub">Středa–pátek · Únor 2026 · 2 osoby</p>
+
+  <div class="green-box">
+    <strong>☀️ Počasí 25.–27. února:</strong> 16–18 °C, slunečno, 0–5 % šance deště. <strong>Ideální na výlety.</strong> Na Etně na 2500 m bude ~5–8 °C – vezměte bundu a čepici!
+  </div>
+
+  <!-- STŘEDA -->
+  <div class="day-header">
+    <div class="day-name">Středa 25. února</div>
+    <div class="day-title">🌋 Sopka Etna – celodenní výlet</div>
+    <div class="day-weather">☀️ 16 °C · 0 % déšť · výborná viditelnost</div>
+  </div>
+
+  <div class="tl">
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">7:45</div><div class="tl-title">Odejít z ubytování</div><div class="tl-desc">Pěšky nebo metrem (Stesicoro → Giovanni XXIII, 1 zastávka, 1,20 €)</div></div>
+    <div class="tl-item"><div class="tl-dot green"></div><div class="tl-time">8:00–8:10</div><div class="tl-title">Nastoupit na bus AST 607</div><div class="tl-desc"><strong>Piazza Giovanni XXIII</strong> (přímo před nádražím Catania Centrale)<br>Lístek u řidiče: <strong>6,60 € return / os.</strong> · hotovost</div></div>
+    <div class="tl-item"><div class="tl-dot green"></div><div class="tl-time">10:15</div><div class="tl-title">Rifugio Sapienza (1920 m)</div><div class="tl-desc">Jste u paty lanovky. Zaparkovat není váš problém.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">10:30–13:00</div><div class="tl-title">Výstup na Etnu</div><div class="tl-desc">Lanovka na 2500 m (30 €/os.) + volná procházka nebo 4x4 na 2920 m (+50 €/os. se sprievodcem)</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">13:00–15:30</div><div class="tl-title">Oběd a volný čas u Rifugia</div><div class="tl-desc">Restaurace přímo u lanovky, pizzerie Vulcano</div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-time">16:30</div><div class="tl-title">⚠️ Jediný autobus zpět!</div><div class="tl-desc">AST bus odjíždí přesně v 16:30 – <strong>nepropást!</strong> Příjezd do Catanie ~18:30</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">Večer</div><div class="tl-title">Catania – večeře na Via Etnea nebo Pescheria</div><div class="tl-desc">Vyzkoušejte arancino, pasta alla Norma, cannoli</div></div>
+  </div>
+
+  <!-- ČTVRTEK -->
+  <div class="day-header blue" style="margin-top:24px;">
+    <div class="day-name">Čtvrtek 26. února</div>
+    <div class="day-title">🏛 Taormina – nejkrásnější město Sicílie</div>
+    <div class="day-weather">☀️ 18 °C · 0 % déšť · nejlepší den!</div>
+  </div>
+
+  <div class="tl">
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">9:00</div><div class="tl-title">Bus Interbus z Via Archimede</div><div class="tl-desc"><strong>Via Archimede</strong> (kousek od Catania Centrale, cca 18 min pěšky z ubytování nebo metro)<br>Lístek: <strong>4,60 € / os.</strong> (online na interbus.it nebo na místě)<br>Jízda: ~1 h 10 min</div></div>
+    <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-time">10:10–14:00</div><div class="tl-title">Taormina – prohlídka</div><div class="tl-desc">Teatro Greco (vstup ~10 €), Corso Umberto, výhled na Etnu a moře, Piazza IX Aprile, ogrodové terasy</div></div>
+    <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-time">14:00–15:30</div><div class="tl-title">Oběd v Taormině</div><div class="tl-desc">Restaurace na Corso Umberto – granita di limone k obědu, typická sicilská kuchyně</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">15:30–17:00</div><div class="tl-title">Zpět do Catanie</div><div class="tl-desc">Interbus nebo Etna Trasporti z Taorminy, odjezdy každou hodinu ~5–7 €</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">Večer</div><div class="tl-title">Večer v Catanii</div><div class="tl-desc">Piazza Università, Via dei Crociferi – bary a restaurace v barokním centru</div></div>
+  </div>
+
+  <!-- PÁTEK -->
+  <div class="day-header green" style="margin-top:24px;">
+    <div class="day-name">Pátek 27. února</div>
+    <div class="day-title">🐘 Catania – historické centrum a trhy</div>
+    <div class="day-weather">🌤 17 °C · 5 % déšť · stále hezky</div>
+  </div>
+
+  <div class="tl">
+    <div class="tl-item"><div class="tl-dot green"></div><div class="tl-time">8:00–10:00</div><div class="tl-title">Trh La Pescheria</div><div class="tl-desc">Rybí trh za Piazza del Duomo (5 min od ubytování). Otevřen Po–So do 13:00. V únoru méně turistů = autentická atmosféra!</div></div>
+    <div class="tl-item"><div class="tl-dot green"></div><div class="tl-time">10:00–12:00</div><div class="tl-title">Piazza del Duomo a okolí</div><div class="tl-desc">Katedrála sv. Agáty (zdarma), Fontána Liotru – slon = symbol Catanie, Palazzo degli Elefanti</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">12:00–14:00</div><div class="tl-title">Teatro Romano a Monastero Benedettini</div><div class="tl-desc">Římské divadlo ~5 min od ubytování. Benediktinský klášter – jeden z největších v Evropě (3–5 €)</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">14:00–16:00</div><div class="tl-title">Oběd + Via Etnea</div><div class="tl-desc">Hlavní třída Catanie – kavárny, sicilské zákusky (cannoli, granita), výhled na Etnu</div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-time">Odpoledne</div><div class="tl-title">Castello Ursino (doporučujeme)</div><div class="tl-desc">Normanský hrad, vstup 6 € – muzeum s výhledem. 15 min pěšky z ubytování.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">Večer</div><div class="tl-title">Poslední večeře na Sicílii</div><div class="tl-desc">Restaurace na Piazza Teatro Massimo – živá catanská muzika v pátek večer</div></div>
+  </div>
+
+  <div class="warn" style="margin-top:20px;">
+    <strong>💡 Tip:</strong> Trh La Pescheria v pátek ráno je lepší než ve středu – v únoru méně turistů. Pokud počasí ve středu na Etně nebude vyhovovat, prohoďte s Taorminou.
+  </div>
+</div>
+
+<!-- ===== ETNA ===== -->
+<div id="etna" class="section">
+  <h2 class="sec-title">Etna – výlet na sopku</h2>
+  <p class="sec-sub">Středa 25.2 · Ověřené informace 2026</p>
+
+  <div class="green-box">
+    <strong>✓ Vše ověřeno (únor 2026):</strong> Lanovka funguje celoročně (pokud počasí dovolí). V únoru je na vrcholu sníh, nutná pořádná bunda a pevná obuv. Na 2500 m čekejte ~6–8 °C, i když v Catanii bude 16 °C.
+  </div>
+
+  <!-- JAK SE DOSTAT -->
+  <div class="day-header" style="margin-bottom:12px;">
+    <div class="day-name">Možnost A – nejlevnější a nejjednodušší</div>
+    <div class="day-title">🚌 Bus AST 607 z Catanie</div>
+  </div>
+
+  <div class="card green">
+    <h3>📍 Kde nastoupit (přesné místo)</h3>
+    <p><strong>Piazza Giovanni XXIII</strong> – toto je velká plocha přímo před hlavním nádražím <strong>Catania Centrale</strong>.</p>
+    <p style="margin-top:6px;">📍 Z vašeho ubytování (Via Sangiuliano 54) se dostanete:</p>
+    <ul style="margin-top:6px;">
+      <li><strong>Pěšky:</strong> ~18 min dolů přes Piazza del Duomo, pak kolem nádraží</li>
+      <li><strong>Metrem:</strong> Stesicoro → Giovanni XXIII (1 zastávka, 1,20 € / os.)</li>
+    </ul>
+    <div class="info-box" style="margin-top:10px;">
+      <strong>Lístek: 6,60 € return / os.</strong> – kupte u řidiče, pouze hotovost!<br>
+      Bus jede <strong>každý den</strong> (kromě 25.12., 1.1., 1.5., 15.8., Velikonoční neděle)
+    </div>
+    <table class="tbl" style="margin-top:8px;">
+      <tr><th>Směr</th><th>Odjezd</th><th>Příjezd</th></tr>
+      <tr class="best"><td>→ Etna</td><td>8:15 Piazza Giovanni XXIII</td><td>~10:15 Rifugio</td></tr>
+      <tr><td>← Catania</td><td>16:30 Rifugio Sapienza</td><td>~18:30 Catania</td></tr>
+    </table>
+    <p class="source-note">✓ Zdroj: astsicilia.it · visititaly.eu ·ověřeno únor 2026</p>
+    <div class="warn" style="margin-top:8px;">
+      <strong>⚠️ BUS JEDE JEDNOU DENNĚ!</strong> Zpáteční odjezd je PŘESNĚ v 16:30. Pokud ho propasíte, musíte jet taxíkem (~50–70 €) nebo Boltem.
+    </div>
+  </div>
+
+  <a class="map-btn green" href="https://www.google.com/maps/place/Piazza+Giovanni+XXIII,+Catania/@37.5076,15.0893,17z" target="_blank">
+    <span class="map-ic">🚌</span>
+    <span class="map-btn-text"><span class="map-btn-title">Piazza Giovanni XXIII – zastávka AST</span><span class="map-btn-sub">Před nádražím Catania Centrale · Google Maps</span></span><span>›</span>
+  </a>
+
+  <!-- MOŽNOST B -->
+  <div class="day-header" style="margin-top:20px; margin-bottom:12px;">
+    <div class="day-name">Možnost B – pohodlnější, flexibilnější</div>
+    <div class="day-title">🚗 Půjčené auto na Etnu</div>
+  </div>
+
+  <div class="card">
+    <h3>Výhody auta na Etnu</h3>
+    <ul>
+      <li>Odjedete kdy chcete (ideálně před 9:00 – ranní výhled je nejlepší)</li>
+      <li>Nezávisíte na jednom zpátečním spoji</li>
+      <li>Cestou zastavíte ve vinařských vesnicích (Nicolosi, Zafferana)</li>
+      <li>Vzdálenost: Catania → Rifugio Sapienza ~40 km, cca 50 min jízdy</li>
+    </ul>
+    <div class="info-box" style="margin-top:10px;">
+      <strong>🅿️ Parkování u Rifugia Sapienza:</strong> Placené, ~5 € / půl den. Zadat SPZ do automatu.
+    </div>
+  </div>
+
+  <!-- KDE PŮJČIT AUTO -->
+  <div class="day-header blue" style="margin-top:20px; margin-bottom:12px;">
+    <div class="day-name">Půjčení auta – ověřené možnosti</div>
+    <div class="day-title">🚗 Kde si půjčit auto v centru Catanie</div>
+  </div>
+
+  <div class="card blue">
+    <h3>⭐ Luciano & Dami Rent Car – nejblíže centru</h3>
+    <p>Místní půjčovna přímo v Catanii – rozvoz/odvoz na letiště i do centra.</p>
+    <p style="margin-top:6px;"><a href="https://www.lucianoedamirentcar.com" style="color:#7ec8e3;">lucianoedamirentcar.com</a></p>
+    <div class="warn" style="margin-top:8px;">
+      <strong>⚠️ ZTL zóna!</strong> Centrum Catanie (včetně Via Sangiuliano) má omezenou dopravu (ZTL). Auto musíte parkovat mimo centrum a chodit pěšky. Porušení ZTL = automatická pokuta.
+    </div>
+  </div>
+
+  <div class="card blue">
+    <h3>Velké půjčovny (letiště i centrum)</h3>
+    <p>Sixt, Europcar, Hertz, Maggiore, Avis mají pobočky na letišti i v centru.</p>
+    <p style="font-size:12px; color:rgba(245,232,192,0.5); margin-top:4px;">Rezervujte online předem – v únoru je to levnější než na místě.</p>
+    <div class="info-box" style="margin-top:8px;">
+      <strong>💡 Tip:</strong> Pokud jedete jen na Etnu, nejlepší je půjčit auto přes noc (úterý → středa) a vrátit ho po výletu. Na Taorminu a Cataniu auto nepotřebujete.
+    </div>
+  </div>
+
+  <!-- CO NA ETNĚ -->
+  <div class="day-header" style="margin-top:20px; margin-bottom:12px;">
+    <div class="day-name">Co dělat na Etně</div>
+    <div class="day-title">🌋 Rifugio Sapienza – možnosti výstupu</div>
+  </div>
+
+  <div class="card">
+    <h3>Možnosti výstupu – ověřené ceny 2025/2026</h3>
+    <div class="price-row"><span class="price-label">🚡 Lanovka na 2500 m (self-guided)</span><span class="price-val">30 €/os.</span></div>
+    <div class="price-row"><span class="price-label">🚐 Lanovka + 4x4 jeep na 2920 m + průvodce</span><span class="price-val">80 €/os.</span></div>
+    <div class="price-row"><span class="price-label">❄️ Příplatek za sněžný vůz (zimní provoz)</span><span class="price-val">+15 €/os.</span></div>
+    <div class="price-row"><span class="price-label">🚶 Pěší turistika u Silvestri kráterů (zdarma)</span><span class="price-val">0 €</span></div>
+    <p class="source-note">✓ Ceny: funiviaetna.com, go-etna.com · ověřeno 2025–2026</p>
+  </div>
+
+  <div class="info-box">
+    <strong>💡 Doporučení pro únor:</strong><br>
+    Na 2500 m je sníh a ~6 °C. <strong>Lanovka nestoupá v mlze ani silném větru</strong> – vždy zkontrolujte ráno na webu funiviaetna.com nebo zavolejte <a href="tel:+390953874266" style="color:var(--gold);">+39 095 387426</a>.<br><br>
+    <strong>Pro 2 osoby doporučujeme:</strong> Lanovka na 2500 m (60 € celkem) + volná procházka ke kráterům Silvestri = nejlepší poměr ceny a zážitku.
+  </div>
+
+  <div class="warn">
+    <strong>Oblečení pro únor na Etně:</strong> Zimní bunda (nutná!), čepice, rukavice, pevné nepromokavé boty. Nechodte v tenisky – na 2500 m je sníh a led.
+  </div>
+
+  <a class="map-btn" href="https://www.google.com/maps/place/Rifugio+Sapienza/@37.7007,15.0097,15z" target="_blank">
+    <span class="map-ic">🌋</span>
+    <span class="map-btn-text"><span class="map-btn-title">Rifugio Sapienza – lanovka</span><span class="map-btn-sub">Google Maps · cíl výletu</span></span><span>›</span>
+  </a>
+
+  <a class="map-btn green" href="https://www.google.com/maps/dir/Via+Antonino+di+Sangiuliano+54,+95131+Catania/Rifugio+Sapienza,+Piazzale+Rifugio+Sapienza,+Nicolosi/@37.5783,15.0453,12z/data=!4m14!4m13!1m5!1m1!1s0x13122f33b3f5e71f:0x534bb79d4d536df!2m2!1d15.0955641!2d37.5052879!1m5!1m1!1s0x131240b9ded49a87:0x4cbfba4c7ea69a3a!2m2!1d15.0097!2d37.7007!3e0" target="_blank">
+    <span class="map-ic">🗺️</span>
+    <span class="map-btn-text"><span class="map-btn-title">Trasa autem: Ubytování → Rifugio Sapienza</span><span class="map-btn-sub">~40 km · cca 50 min</span></span><span>›</span>
+  </a>
+</div>
+
+<!-- ===== TAORMINA ===== -->
+<div id="taormina" class="section">
+  <h2 class="sec-title">Taormina</h2>
+  <p class="sec-sub">Čtvrtek 26.2 · Nejkrásnější město Sicílie</p>
+
+  <div class="green-box">
+    <strong>☀️ Čtvrtek 26.2: 18 °C, 0 % déšť</strong> – <strong>nejlepší den na Taorminu!</strong> V únoru méně turistů, vše otevřeno, barokní centrum bez davů.
+  </div>
+
+  <div class="day-header blue" style="margin-bottom:14px;">
+    <div class="day-name">Jak se dostat</div>
+    <div class="day-title">🚌 Bus Interbus z Via Archimede</div>
+  </div>
+
+  <div class="card blue">
+    <h3>📍 Přesné místo nastoupení v Catanii</h3>
+    <p><strong>Via Archimede</strong> – terminál Interbus, hned za Catania Centrale (nádraží). Zastávka je ~50 m od Piazza Giovanni XXIII (kde je metro a AST bus na Etnu).</p>
+    <p style="font-size:12px; color:rgba(245,232,192,0.45); margin-top:4px;">Z ubytování: metro Stesicoro → Giovanni XXIII (1 zastávka) nebo 18 min pěšky dolů</p>
+    <table class="tbl" style="margin-top:10px;">
+      <tr><th>Odjezd Catania</th><th>Příjezd Taormina</th><th>Cena/os.</th></tr>
+      <tr class="best"><td>6:30</td><td>~8:00</td><td>4,60 €</td></tr>
+      <tr class="best"><td>7:30</td><td>~9:00</td><td>4,60 €</td></tr>
+      <tr class="best"><td>8:30</td><td>~10:00</td><td>4,60 €</td></tr>
+      <tr class="best"><td>9:30</td><td>~11:00</td><td>4,60 €</td></tr>
+      <tr><td>pak každou hodinu</td><td>–</td><td>4,60–5,10 €</td></tr>
+    </table>
+    <p class="source-note">✓ Zdroj: citymapsicilia.it · interbus.it · ověřeno únor 2026</p>
+  </div>
+
+  <div class="card blue">
+    <h3>Zpáteční spoje Taormina → Catania</h3>
+    <p>Z Taorminy (Via Pirandello – Taormina Bus Terminal) jede bus každou hodinu.</p>
+    <table class="tbl" style="margin-top:8px;">
+      <tr><th>Odjezd Taormina</th><th>Příjezd Catania</th><th>Cena/os.</th></tr>
+      <tr><td>14:00</td><td>~15:15</td><td>4,60 €</td></tr>
+      <tr class="best"><td>15:00</td><td>~16:10</td><td>4,60 €</td></tr>
+      <tr class="best"><td>16:00</td><td>~17:10</td><td>4,60 €</td></tr>
+      <tr><td>17:00</td><td>~18:10</td><td>4,60 €</td></tr>
+      <tr><td>Poslední ~20:00</td><td>–</td><td>–</td></tr>
+    </table>
+    <p class="source-note">✓ Zdroj: interbus.it, busbud.com · Interbus jede i v únoru denně</p>
+  </div>
+
+  <div class="info-box">
+    <strong>💰 Pro 2 osoby – Taormina celkem:</strong><br>
+    Bus tam + zpět: 4 x 4,60 € = <span style="color:var(--gold); font-weight:600;">18,40 €</span><br>
+    Teatro Greco: 2 x 10 € = 20 €<br>
+    Oběd pro 2: ~30–40 €<br>
+    Celkové náklady: ~<strong>70–80 €</strong>
+  </div>
+
+  <div class="card blue">
+    <h3>🏛 Co vidět v Taormině</h3>
+    <div class="walk-step"><div class="walk-ic">🎭</div><div><div class="walk-main"><strong>Teatro Greco-Romano</strong> – vstup ~10 €/os.</div><div class="walk-sub">Starořecké divadlo z 3. stol. př. n. l. s výhledem na Etnu a moře. Povinná zastávka!</div></div></div>
+    <div class="walk-step"><div class="walk-ic">🛍️</div><div><div class="walk-main"><strong>Corso Umberto I</strong> – hlavní ulice</div><div class="walk-sub">Barokní paláce, obchůdky, kavárny. Bez aut, krásná procházka.</div></div></div>
+    <div class="walk-step"><div class="walk-ic">🌅</div><div><div class="walk-main"><strong>Piazza IX Aprile</strong> – terasa s výhledem</div><div class="walk-sub">Jeden z nejkrásnějších výhledů v Itálii – na Etnu i Jónské moře.</div></div></div>
+    <div class="walk-step"><div class="walk-ic">🌸</div><div><div class="walk-main"><strong>Zahrada Villa Comunale</strong> – zdarma</div><div class="walk-sub">Viktoriánská zahrada nad útefy, v únoru kvetou citrusy.</div></div></div>
+    <div class="walk-step"><div class="walk-ic">🏖️</div><div><div class="walk-main"><strong>Isola Bella</strong> – skalnatý ostrov</div><div class="walk-sub">V únoru výhled zdola – pláž ještě nepřeplněná turisty.</div></div></div>
+  </div>
+
+  <a class="map-btn blue" href="https://www.google.com/maps/place/Via+Archimede,+Catania/@37.5079,15.0929,17z" target="_blank">
+    <span class="map-ic">🚌</span>
+    <span class="map-btn-text"><span class="map-btn-title">Via Archimede – zastávka Interbus do Taorminy</span><span class="map-btn-sub">Terminál Interbus · Catania Centrale</span></span><span>›</span>
+  </a>
+
+  <a class="map-btn blue" href="https://www.google.com/maps/place/Teatro+Antico+di+Taormina/@37.8520,15.2913,16z" target="_blank">
+    <span class="map-ic">🎭</span>
+    <span class="map-btn-text"><span class="map-btn-title">Teatro Greco – Taormina</span><span class="map-btn-sub">Starořecké divadlo · vstup ~10 €</span></span><span>›</span>
+  </a>
+</div>
+
+<!-- ===== CATANIA ===== -->
+<div id="catania" class="section">
+  <h2 class="sec-title">Catania</h2>
+  <p class="sec-sub">Pátek 27.2 · Centrum na vlastní pěst</p>
+
+  <div class="green-box">
+    <strong>Výhoda:</strong> Vaše ubytování je přímo uprostřed historického centra. Vše dostupné pěšky do 15 minut!
+  </div>
+
+  <div class="card">
+    <h3>🐟 La Pescheria – rybí trh</h3>
+    <p><strong>Za Piazza del Duomo</strong> – 5 min od ubytování doleva dolů</p>
+    <p>Otevřen Po–So, ráno do 13:00. <strong>Nejlepší v 8–10 h</strong> – největší nabídka.</p>
+    <div class="info-box" style="margin-top:8px;">Autentická Sicílie – ryby, chobotnice, meče ryby přímo z lodi. V únoru méně turistů = lepší atmosféra!</div>
+  </div>
+
+  <div class="card">
+    <h3>🐘 Piazza del Duomo</h3>
+    <p>Srdce Catanie – <strong>5 min od ubytování dolů</strong> z Via Sangiuliano.</p>
+    <ul>
+      <li><strong>Fontána Liotru</strong> (slon na obelisku) – symbol města, starořímský původ</li>
+      <li><strong>Katedrála sv. Agáty</strong> – barokní, hrob skladatele Belliniho (vstup zdarma)</li>
+      <li><strong>Palazzo degli Elefanti</strong> – radnice</li>
+    </ul>
+  </div>
+
+  <div class="card green">
+    <h3>🏛 Teatro Romano</h3>
+    <p><strong>3 min pěšky</strong> od ubytování (Via Vittorio Emanuele II 266)</p>
+    <p>Římské divadlo z 2. stol. zasazené přímo do živého města. Vstup ~5 €.</p>
+  </div>
+
+  <div class="card green">
+    <h3>⛪ Monastero dei Benedettini</h3>
+    <p>Jeden z největších klášterů v Evropě – barokní architektura, zahrada. Vstup ~3–5 €. 10 min pěšky.</p>
+  </div>
+
+  <div class="card">
+    <h3>🏰 Castello Ursino</h3>
+    <p>Normanský hrad z 13. stol. – dnes muzeum. Vstup ~6 €. 15 min pěšky od ubytování.</p>
+  </div>
+
+  <div class="card">
+    <h3>🛍️ Via Etnea</h3>
+    <p>Hlavní třída Catanie – od Piazza del Duomo na sever. Barokní budovy, kavárny, gelaterie. Výhled na Etnu v pozadí. Výborná granita a arancino.</p>
+  </div>
+
+  <div class="info-box">
+    <strong>🍋 Sicilské speciality, které musíte zkusit:</strong><br>
+    Arancino/arancina (rýžový krém smaž.), Granita di mandorla/limone, Cannolo siciliano, Pasta alla Norma, Caponata, Pesce spada alla siciliana
+  </div>
+
+  <a class="map-btn" href="https://www.google.com/maps/place/Piazza+del+Duomo,+95100+Catania+CT,+Italy/@37.5022684,15.0874745,17z" target="_blank">
+    <span class="map-ic">🐘</span>
+    <span class="map-btn-text"><span class="map-btn-title">Piazza del Duomo</span><span class="map-btn-sub">Centrum Catanie · 5 min od ubytování</span></span><span>›</span>
+  </a>
+</div>
+
+<!-- ===== ODJEZD ===== -->
+<div id="departure" class="section">
+  <h2 class="sec-title">Odjezd na letiště</h2>
+  <p class="sec-sub">Sobota 1.3 · Let ~9:00</p>
+
+  <div class="warn" style="margin-bottom:16px;">
+    <strong>🕐 Plán pro let v 9:00:</strong><br>
+    Bez zavazadel = rychlejší check-in. Přesto buďte na letišti v <strong>7:30</strong>.<br>
+    Odejděte z ubytování nejpozději v <strong>6:45 (taxi/Bolt)</strong> nebo <strong>5:55 (Alibus)</strong>.
+  </div>
+
+  <div class="card red">
+    <div class="step-num">A</div>
+    <h3>Bolt / Taxi – DOPORUČUJEME pro ranní let</h3>
+    <p><span class="hl red">🚗 Bolt: ~12–15 €</span> <span class="hl">🚕 Taxi: ~18–22 €</span> <span class="hl blue">⏱ 10–15 min</span></p>
+    <div class="info-box" style="margin-top:10px;">
+      <strong>📱 Bolt:</strong> Objednejte 10 min před odjezdem. V 6:30–6:45 ráno bude dostupný.<br><br>
+      <strong>🚕 Radio Taxi:</strong> <a href="tel:+39095330966" style="color:var(--gold); font-weight:600;">095 330 966</a> – domluvte den předem na 6:30.
+    </div>
+  </div>
+
+  <div class="card red">
+    <div class="step-num">B</div>
+    <h3>Alibus 457 zpět na letiště</h3>
+    <p>Nastoupit na zastávce <strong>Stesicoro / Borsellino</strong> (7 min dolů z ubytování). Bus označen <strong>AEROPORTO</strong>.</p>
+    <table class="tbl" style="margin-top:8px;">
+      <tr><th>Odjezd centrum</th><th>Příjezd ✈</th><th>Hodnocení</th></tr>
+      <tr><td>05:20</td><td>~05:45</td><td>Velká rezerva</td></tr>
+      <tr><td>05:45</td><td>~06:10</td><td>Dobrá rezerva</td></tr>
+      <tr class="best"><td>06:10</td><td>~06:35</td><td>★ Ideální</td></tr>
+    </table>
+    <p class="source-note">✓ Alibus jede každých 25 min od 4:40 · ověřeno</p>
+    <div class="info-box" style="margin-top:8px;">
+      <strong>💡 Tip bez kufr:</strong> Zvažte levnější linku <strong>524</strong> (1 € / os.) – odjezd z Piazza Borsellino, zastávka Goretti-Campo Nord (300 m od terminálu). Ale 524 jede méně často (~40 min frekvence).
+    </div>
+  </div>
+
+  <a class="map-btn red" href="https://www.google.com/maps/dir/Via+Antonino+di+Sangiuliano+54,+95131+Catania/Catania+Fontanarossa+Airport,+Via+Fontanarossa,+Catania/@37.4857,15.0803,13z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x13122f33b3f5e71f:0x534bb79d4d536df!2m2!1d15.0955641!2d37.5052879!1m5!1m1!1s0x13122e86b8e2b8bb:0xe0caa7516aa5dc53!2m2!1d15.0650731!2d37.4662529!3e0" target="_blank">
+    <span class="map-ic">🚕</span>
+    <span class="map-btn-text"><span class="map-btn-title">Navigace: Ubytování → Letiště</span><span class="map-btn-sub">Taxíkem / Boltem · ~15 min</span></span><span>›</span>
+  </a>
+</div>
+
+<!-- ===== TIPY ===== -->
+<div id="tips" class="section">
+  <h2 class="sec-title">Praktické tipy</h2>
+  <p class="sec-sub">Ověřené informace · únor 2026</p>
+
+  <div class="card">
+    <h3>📊 Přehled nákladů – 2 osoby, 3 dny</h3>
+    <div class="price-row"><span class="price-label">Alibus z letiště (2 os.)</span><span class="price-val">8 €</span></div>
+    <div class="price-row"><span class="price-label">Metro Catania (2x den)</span><span class="price-val">~5 €</span></div>
+    <div class="price-row"><span class="price-label">AST bus Etna (2 os. return)</span><span class="price-val">13,20 €</span></div>
+    <div class="price-row"><span class="price-label">Lanovka Etna 2500m (2 os.)</span><span class="price-val">60 €</span></div>
+    <div class="price-row"><span class="price-label">Interbus Taormina (2 os. A/R)</span><span class="price-val">18,40 €</span></div>
+    <div class="price-row"><span class="price-label">Teatro Greco Taormina (2 os.)</span><span class="price-val">20 €</span></div>
+    <div class="price-row"><span class="price-label">Vstupné Catania (Romano, Ursino...)</span><span class="price-val">~20 €</span></div>
+    <div class="price-row"><span class="price-label">Bolt/taxi na letiště</span><span class="price-val">~14 €</span></div>
+    <div class="price-row" style="border-top:1px solid rgba(212,130,10,0.3); margin-top:4px; padding-top:10px;"><span class="price-label" style="font-weight:600;">Doprava + vstupné celkem</span><span class="price-val" style="font-size:15px; color:var(--gold);">~158 €</span></div>
+    <p style="font-size:11px; color:rgba(245,232,192,0.35); margin-top:6px;">Bez jídla, pití a ubytování.</p>
+  </div>
+
+  <div class="card">
+    <h3>📱 Stáhněte před cestou</h3>
+    <div class="walk-step"><div class="walk-ic">🚗</div><div><div class="walk-main"><strong>Bolt</strong> – taxi v Itálii</div><div class="walk-sub">Nastavte platební kartu doma</div></div></div>
+    <div class="walk-step"><div class="walk-ic">🗺️</div><div><div class="walk-main"><strong>Google Maps</strong> – offline mapa</div><div class="walk-sub">Stáhněte oblast Catanie + Taorminy offline</div></div></div>
+    <div class="walk-step"><div class="walk-ic">🚌</div><div><div class="walk-main"><strong>Interbus app</strong> – jízdenky online</div><div class="walk-sub">interbus.it – jízdenka do Taorminy</div></div></div>
+    <div class="walk-step"><div class="walk-ic">🌋</div><div><div class="walk-main"><strong>funiviaetna.com</strong> – stav lanovky</div><div class="walk-sub">Zkontrolujte ráno ve středu před výjezdem!</div></div></div>
+  </div>
+
+  <div class="card">
+    <h3>📞 Důležitá čísla</h3>
+    <div class="contact-row"><span class="walk-ic">🚕</span><div><a href="tel:+39095330966">095 330 966</a><div class="contact-label">Radio Taxi Catania</div></div></div>
+    <div class="contact-row"><span class="walk-ic">🌋</span><div><a href="tel:+390953874266">095 387 426</a><div class="contact-label">Funivia dell'Etna (lanovka) – stav provozu</div></div></div>
+    <div class="contact-row"><span class="walk-ic">🚌</span><div><a href="tel:+390955530396">095 530 396</a><div class="contact-label">Interbus Catania (bus do Taorminy)</div></div></div>
+    <div class="contact-row"><span class="walk-ic">✈</span><div><a href="tel:+390957239111">+39 095 723 9111</a><div class="contact-label">Letiště Catania Fontanarossa</div></div></div>
+    <div class="contact-row"><span class="walk-ic">🆘</span><div><a href="tel:112">112</a><div class="contact-label">Záchranné složky EU</div></div></div>
+    <div class="contact-row"><span class="walk-ic">🚑</span><div><a href="tel:118">118</a><div class="contact-label">Záchranná služba Itálie</div></div></div>
+  </div>
+
+  <div class="card">
+    <h3>🗺 Mapy</h3>
+    <a class="map-btn" href="https://www.google.com/maps/place/Via+Antonino+di+Sangiuliano,+54,+95131+Catania+CT,+Italy/@37.5052879,15.0955641,18z" target="_blank" style="margin:6px 0;">
+      <span class="map-ic">🏠</span><span class="map-btn-text"><span class="map-btn-title">Vaše ubytování</span><span class="map-btn-sub">Via Sangiuliano 54</span></span><span>›</span>
+    </a>
+    <a class="map-btn green" href="https://www.google.com/maps/place/Piazza+Giovanni+XXIII,+Catania/@37.5076,15.0893,17z" target="_blank" style="margin:6px 0;">
+      <span class="map-ic">🚌</span><span class="map-btn-text"><span class="map-btn-title">Piazza Giovanni XXIII</span><span class="map-btn-sub">Zastávka AST (Etna) + metro + Interbus</span></span><span>›</span>
+    </a>
+    <a class="map-btn blue" href="https://www.google.com/maps/place/Taormina/@37.8520,15.2913,13z" target="_blank" style="margin:6px 0;">
+      <span class="map-ic">🏛</span><span class="map-btn-text"><span class="map-btn-title">Taormina</span><span class="map-btn-sub">Historické centrum · čtvrtek</span></span><span>›</span>
+    </a>
+    <a class="map-btn" href="https://www.google.com/maps/place/Rifugio+Sapienza/@37.7007,15.0097,15z" target="_blank" style="margin:6px 0;">
+      <span class="map-ic">🌋</span><span class="map-btn-text"><span class="map-btn-title">Rifugio Sapienza – Etna</span><span class="map-btn-sub">Lanovka · středa</span></span><span>›</span>
+    </a>
+  </div>
+
+  <div class="osm-wrap">
+    <iframe width="100%" height="260" frameborder="0" scrolling="no"
+      src="https://www.openstreetmap.org/export/embed.html?bbox=15.088%2C37.500%2C15.104%2C37.511&layer=mapnik&marker=37.5052879%2C15.0955641">
+    </iframe>
+  </div>
+  <p style="font-size:11px; color:rgba(245,232,192,0.3); text-align:center; margin-bottom:16px;">📍 Vaše ubytování · Via Sangiuliano 54</p>
+
+  <div class="warn">
+    <strong>⚠️ ZTL – zakázaná zóna!</strong> Centrum Catanie je ZTL (omezený provoz). Autem (i půjčeným) nesmíte do centra – automatická pokuta. Parkujte mimo centrum.
+  </div>
+
+  <div class="info-box">
+    <strong>💡 Shrnutí 3 dnů:</strong><br>
+    <strong>Středa:</strong> 🌋 Etna (AST bus z Piazza Giovanni XXIII v 8:15, zpět v 16:30)<br>
+    <strong>Čtvrtek:</strong> 🏛 Taormina (Interbus z Via Archimede cca v 9:00)<br>
+    <strong>Pátek:</strong> 🐘 Catania (trh + centrum pěšky)
+  </div>
+</div>
+
+<footer>
+  Průvodce <span>Catania · únor 2026 🌋</span><br>
+  Ověřeno: AMT Alibus · AST astsicilia.it · Interbus interbus.it · Funivia funiviaetna.com
+</footer>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
